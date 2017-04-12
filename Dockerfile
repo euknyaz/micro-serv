@@ -1,4 +1,4 @@
 FROM alpine
 WORKDIR /home
-ADD ./micro-sock /usr/local/bin/
-ENTRYPOINT ["/usr/local/bin/micro-sock"]
+ADD ./micro-serv /bin/
+ENTRYPOINT ["micro-serv"]

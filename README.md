@@ -13,13 +13,13 @@ A tiny golang application simulating a microservice. It
 ### Using Go natively
 
 ```bash
-make micro-sock
+make micro-serv
 ```
 
 ## Usage
 
 ```bash
-Usage of ./micro-sock:
+Usage of ./micro-serv:
   -a string
         listening address
   -i duration
@@ -33,17 +33,17 @@ Usage of ./micro-sock:
 
 ## Example
 
-The following example will start micro-sock in listen mode, and attempt to connect to a different instance of micro-sock, on host "test-host".
+The following example will start micro-serv in listen mode, and attempt to connect to a different instance of micro-serv, on host "test-host".
 
 ```bash
-./micro-sock -l test-host
+./micro-serv -l test-host
 ```
 
 ## Micro Sock on Docker Compose and Weave Cloud
 
 Micro Sock is a small application that simulates a microservice. It listens for connections and initiates connection to other services specified as a parameter on the command line, and exchanges messages with those services. It is ideal for building a quick topology of services that talk to each other. 
 
-The instructions on this page will allow you to get started with a Docker Compose setup that uses multiple micro-sock containers to build a topology that resembles the other Sock Shop deployments. The advantage is that that the required download is only 5 MB and the whole setup starts very fast.
+The instructions on this page will allow you to get started with a Docker Compose setup that uses multiple micro-serv containers to build a topology that resembles the other Sock Shop deployments. The advantage is that that the required download is only 5 MB and the whole setup starts very fast.
 
 ### Pre-requisites
 
@@ -78,7 +78,7 @@ version: '2'
 
 services:
   load_balancer:
-    image: euknyaz/micro-sock
+    image: euknyaz/micro-serv
     container_name: load_balancer
     command: frontend
     ports:
@@ -87,41 +87,38 @@ services:
     networks:
       - frontend
   frontend:
-    image: euknyaz/micro-sock
-    container_name_skip: frontend
+    image: euknyaz/micro-serv
     command: -l backend
     networks:
       - frontend
       - backend
   backend:
-    image: euknyaz/micro-sock
-    container_name_skip: backend
+    image: euknyaz/micro-serv
     command: -l mongo_db redis_cache rabbitmq_queue
     networks:
       - backend
       - storage
   mongo_db:
-    image: euknyaz/micro-sock
+    image: euknyaz/micro-serv
     container_name: mongo_db 
     command: -l
     networks:
       - storage
   redis_cache:
-    image: euknyaz/micro-sock
+    image: euknyaz/micro-serv
     container_name: redis_cache
     command: -l
     networks:
       - storage
   rabbitmq_queue:
-    image: euknyaz/micro-sock
+    image: euknyaz/micro-serv
     container_name: rabbitmq_queue
     command: -l processor_worker
     networks:
       - storage
       - processor
   processor_worker:
-    image: euknyaz/micro-sock
-   container_name_skip: processor_worker
+    image: euknyaz/micro-serv
     command: -l data-db
     networks:
       - processor
@@ -152,7 +149,7 @@ networks:
 
 Once you started the application using Docker Compose, you can visit [Weave Cloud](http://cloud.weave.works/) to see how the containers are connected to each other. You should be seeing something like this:
 
-![Micro Sock in Scope](https://github.com/microservices-demo/microservices-demo.github.io/raw/master/assets/micro-sock-scope.png)
+![Micro Sock in Scope](https://github.com/euknyaz/micro-serv/assets/micro-serv-scope.png)
 
 ### Cleaning up
 

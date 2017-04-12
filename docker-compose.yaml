@@ -1,0 +1,58 @@
+# minimal compose for simulation of cluster of micro-services
+version: '2'
+
+services:
+  load_balancer:
+    image: euknyaz/micro-serv
+    container_name: load_balancer
+    command: frontend
+    ports:
+      - '7080:80'
+      - '8080:8080'
+    networks:
+      - frontend
+  frontend:
+    image: euknyaz/micro-serv
+#   container_name: frontend
+    command: -l backend
+    networks:
+      - frontend
+      - backend
+  backend:
+    image: euknyaz/micro-serv
+#   container_name: backend
+    command: -l mongo_db redis_cache rabbitmq_queue
+    networks:
+      - backend
+      - storage
+  mongo_db:
+    image: euknyaz/micro-serv
+    container_name: mongo_db
+    command: -l
+    networks:
+      - storage
+  redis_cache:
+    image: euknyaz/micro-serv
+    container_name: redis_cache
+    command: -l
+    networks:
+      - storage
+  rabbitmq_queue:
+    image: euknyaz/micro-serv
+    container_name: rabbitmq_queue
+    command: -l processor_worker
+    networks:
+      - storage
+      - processor
+  processor_worker:
+    image: euknyaz/micro-serv
+#   container_name: processor_worker
+    command: -l data-db
+    networks:
+      - processor
+      - storage
+networks:
+  frontend:
+  backend:
+  processor:
+  storage:
