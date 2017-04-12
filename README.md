@@ -149,7 +149,7 @@ networks:
 
 Once you started the application using Docker Compose, you can visit [Weave Cloud](http://cloud.weave.works/) to see how the containers are connected to each other. You should be seeing something like this:
 
-![Micro Sock in Scope](https://github.com/euknyaz/micro-serv/assets/micro-serv-scope.png)
+![Micro Sock in Scope](https://github.com/euknyaz/micro-serv/blob/master/assets/micro-serv-scope.png?raw=true)
 
 ### Cleaning up
 
