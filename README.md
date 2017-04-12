@@ -72,9 +72,8 @@ Get a token by [registering on Weave Cloud](http://cloud.weave.works/). Once you
     scope launch --service-token=<token>
 
 ### Prepare docker-compose.yaml configuration file
+minimal compose for a simulation of https://github.com/weaveworks/weaveDemo: 
 <!-- deploy-doc-start docker-compose-yaml -->
-# minimal compose for a simulation of https://github.com/weaveworks/weaveDemo
-
 version: '2'
 
 services:
@@ -89,14 +88,14 @@ services:
       - frontend
   frontend:
     image: euknyaz/micro-sock
-#    container_name: frontend
+    container_name_skip: frontend
     command: -l backend
     networks:
       - frontend
       - backend
   backend:
     image: euknyaz/micro-sock
-#    container_name: backend
+    container_name_skip: backend
     command: -l mongo_db redis_cache rabbitmq_queue
     networks:
       - backend
@@ -122,7 +121,7 @@ services:
       - processor
   processor_worker:
     image: euknyaz/micro-sock
-#   container_name: processor_worker
+   container_name_skip: processor_worker
     command: -l data-db
     networks:
       - processor
@@ -132,6 +131,7 @@ networks:
   backend:
   processor:
   storage:
+
 <!-- deploy-doc-end -->
 
 ### Provision infrastructure
