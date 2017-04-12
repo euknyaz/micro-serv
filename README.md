@@ -73,7 +73,7 @@ Get a token by [registering on Weave Cloud](http://cloud.weave.works/). Once you
 
 ### Prepare docker-compose.yaml configuration file
 minimal compose for a simulation of https://github.com/weaveworks/weaveDemo: 
-<!-- deploy-doc-start docker-compose-yaml -->
+```bash
 version: '2'
 
 services:
@@ -131,8 +131,7 @@ networks:
   backend:
   processor:
   storage:
-
-<!-- deploy-doc-end -->
+```
 
 ### Provision infrastructure
 
