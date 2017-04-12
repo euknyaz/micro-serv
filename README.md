@@ -71,11 +71,81 @@ Get a token by [registering on Weave Cloud](http://cloud.weave.works/). Once you
     sudo chmod a+x /usr/local/bin/scope
     scope launch --service-token=<token>
 
+### Prepare docker-compose.yaml configuration file
+<!-- deploy-doc-start docker-compose-yaml -->
+# minimal compose for a simulation of https://github.com/weaveworks/weaveDemo
+
+version: '2'
+
+services:
+  load_balancer:
+    image: euknyaz/micro-sock
+    container_name: load_balancer
+    command: frontend
+    ports:
+      - '80:80'
+      - '8080:8080'
+    networks:
+      - frontend
+  frontend:
+    image: euknyaz/micro-sock
+#    container_name: frontend
+    command: -l backend
+    networks:
+      - frontend
+      - backend
+  backend:
+    image: euknyaz/micro-sock
+#    container_name: backend
+    command: -l mongo_db redis_cache rabbitmq_queue
+    networks:
+      - backend
+      - storage
+  mongo_db:
+    image: euknyaz/micro-sock
+    container_name: mongo_db 
+    command: -l
+    networks:
+      - storage
+  redis_cache:
+    image: euknyaz/micro-sock
+    container_name: redis_cache
+    command: -l
+    networks:
+      - storage
+  rabbitmq_queue:
+    image: euknyaz/micro-sock
+    container_name: rabbitmq_queue
+    command: -l processor_worker
+    networks:
+      - storage
+      - processor
+  processor_worker:
+    image: euknyaz/micro-sock
+#   container_name: processor_worker
+    command: -l data-db
+    networks:
+      - processor
+      - storage
+networks:
+  frontend:
+  backend:
+  processor:
+  storage:
+<!-- deploy-doc-end -->
+
 ### Provision infrastructure
 
 <!-- deploy-doc-start create-infrastructure -->
 
-    docker-compose -f deploy/micro-sock/docker-compose.yaml up -d
+    docker-compose -f docker-compose.yaml up -d
+
+<!-- deploy-doc-end -->
+
+### Scale infrastructure
+<!-- deploy-doc-start scale-infrastructure -->
+
+    docker-compose -f docker-compose.yaml scale frontend=2 backend=2 processor_worker=3
 
 <!-- deploy-doc-end -->
 
@@ -89,6 +159,6 @@ Once you started the application using Docker Compose, you can visit [Weave Clou
 
 <!-- deploy-doc-start destroy-infrastructure -->
 
-    docker-compose -f deploy/micro-sock/docker-compose.yaml down
+    docker-compose -f docker-compose.yaml down
 
 <!-- deploy-doc-end -->
