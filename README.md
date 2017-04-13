@@ -1,4 +1,4 @@
-# Micro-sock - dummy microservice
+# Micro-serv - mock of microservice
 
 A tiny golang application simulating a microservice. It
 
