@@ -39,11 +39,11 @@ The following example will start micro-serv in listen mode, and attempt to conne
 ./micro-serv -l test-host
 ```
 
-## Micro Sock on Docker Compose and Weave Cloud
+## Micro-Serv on Docker Compose and Weave Cloud
 
-Micro Sock is a small application that simulates a microservice. It listens for connections and initiates connection to other services specified as a parameter on the command line, and exchanges messages with those services. It is ideal for building a quick topology of services that talk to each other. 
+Micro-Serv  is a small application that simulates a microservice. It listens for connections and initiates connection to other services specified as a parameter on the command line, and exchanges messages with those services. It is ideal for building a quick topology of services that talk to each other. 
 
-The instructions on this page will allow you to get started with a Docker Compose setup that uses multiple micro-serv containers to build a topology that resembles the other Sock Shop deployments. The advantage is that that the required download is only 5 MB and the whole setup starts very fast.
+The instructions on this page will allow you to get started with a Docker Compose setup that uses multiple micro-serv containers to build a topology simulating different layouts of app services for deployment. The advantage is that that the required download is only 5 MB and the whole setup starts very fast.
 
 ### Pre-requisites
 
@@ -149,7 +149,7 @@ networks:
 
 Once you started the application using Docker Compose, you can visit [Weave Cloud](http://cloud.weave.works/) to see how the containers are connected to each other. You should be seeing something like this:
 
-![Micro Sock in Scope](https://github.com/euknyaz/micro-serv/blob/master/assets/micro-serv-scope.png?raw=true)
+![Micro-Serv  in Scope](https://github.com/euknyaz/micro-serv/blob/master/assets/micro-serv-scope.png?raw=true)
 
 ### Cleaning up
 
