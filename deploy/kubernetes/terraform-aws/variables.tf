@@ -49,6 +49,10 @@ variable "private_key_path" {
   default     = "~/.ssh/deploy-k8s-us-east-2-keypair.pem"
 }
 variable "k8s_token" {
-  description = "Pre-configure token to allow automatic join of nodes to cluster"
+  description = "Pre-configured token to allow automatic join of nodes to cluster"
   default     = "146658.e472be6ba160d8b3"
+}
+variable "weavecloud_token" {
+  description = "Pre-configured weavecloud token to run weave scope agent on master and node k8s servers"
+  default     = "y498ebdcxsdyrbixogfp9cuct4izrm67"
 }

@@ -86,7 +86,10 @@ resource "aws_instance" "ci-microserv-k8s-master" {
       "sudo kubeadm init --token ${var.k8s_token}",
       "sudo systemctl daemon-reload && sudo systemctl restart kubelet",
       "sudo cp /etc/kubernetes/admin.conf $HOME/ && sudo chown $(id -u):$(id -g) $HOME/admin.conf && export KUBECONFIG=$HOME/admin.conf && echo 'export KUBECONFIG=$HOME/admin.conf' >> $HOME/.profile",
-      "echo 'Waiting 10 sec...' && sleep 10 && kubectl apply -f https://git.io/weave-kube-1.6"
+      "echo 'Waiting 10 sec...' && sleep 10 && kubectl apply -f https://git.io/weave-kube-1.6",
+      "sudo curl --silent --location https://git.io/scope --output /usr/local/bin/scope",
+      "sudo chmod +x /usr/local/bin/scope",
+      "sudo scope launch --service-token=${var.weavecloud_token}"
     ]
   }
 }
@@ -116,7 +119,10 @@ resource "aws_instance" "ci-microserv-k8s-node" {
       "sudo curl -s -o /usr/bin/kubeadm https://heptio-aws-quickstart-test.s3.amazonaws.com/heptio/kubernetes/ken-test/kubeadm && sudo chmod 0755 /usr/bin/kubeadm", #quick fix for kubeadm v1.6
       "sudo sysctl -w vm.max_map_count=262144",
       "sudo systemctl daemon-reload && sudo systemctl enable docker && sudo systemctl enable kubelet && sudo systemctl start docker",
-      "echo 'Waiting 30 sec...' && sleep 30 && for i in $(seq 10); do echo 'kubeadm join $i' && sudo kubeadm join --token ${var.k8s_token} ${aws_instance.ci-microserv-k8s-master.private_ip}:6443 && break || sleep 15; done"
+      "echo 'Waiting 30 sec...' && sleep 30 && for i in $(seq 10); do echo 'kubeadm join $i' && sudo kubeadm join --token ${var.k8s_token} ${aws_instance.ci-microserv-k8s-master.private_ip}:6443 && break || sleep 15; done",
+      "sudo curl --silent --location https://git.io/scope --output /usr/local/bin/scope",
+      "sudo chmod +x /usr/local/bin/scope",
+      "sudo scope launch --service-token=${var.weavecloud_token}"
     ]
   }
 }

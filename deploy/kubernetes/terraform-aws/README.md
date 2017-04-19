@@ -24,24 +24,38 @@ kubectl get svcs
 
 ## Install WeaveScope
 
+
+This doesn't work by default with Kubernetes 1.6: doesn't capture connection info. Need to investigate... (Applied workaround to run scope agent on master/node servers ouside of k8s)
 ```
 kubectl apply -f https://cloud.weave.works/k8s.yaml?t=<your-weavecloud-token>
 ```
 
 Weave Scope URL: https://cloud.weave.works/app/<your-app-name>
 
-## Sock-Shop demo app
+## Run demo app
 
 Run:
 ```
 ssh -i <key> ubuntu@master-node
+# Run sock-shop demo app
 kubectl apply -n sock-shop -f "https://github.com/microservices-demo/microservices-demo/blob/master/deploy/kubernetes/complete-demo.yaml?raw=true"
+
+# Run loadtest demo app
+kubectl apply -f "https://github.com/microservices-demo/microservices-demo/blob/master/deploy/kubernetes/manifests/loadtest-dep.yaml?raw=true"
 ```
+
+## Show Terraform output
+
+```
+terraform output
+```
+ 
 
 Destroy:
 ```
 ssh -i <key> ubuntu@master-node
 kubectl delete -n sock-shop -f "https://github.com/microservices-demo/microservices-demo/blob/master/deploy/kubernetes/complete-demo.yaml?raw=true"
+kubectl delete -n loadtest -f "https://github.com/microservices-demo/microservices-demo/blob/master/deploy/kubernetes/manifests/loadtest-dep.yaml?raw=true"
 ```
 
 ## Destroy cluster
