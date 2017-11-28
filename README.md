@@ -52,8 +52,8 @@ The instructions on this page will allow you to get started with a Docker Compos
 - Install [Weave Scope](https://www.weave.works/install-weave-scope/)
 
 ```
-git clone https://github.com/microservices-demo/microservices-demo
-cd microservices-demo
+git clone https://github.com/micro-serv/micro-serv
+cd micro-serv
 ```
 <!-- deploy-doc-hidden pre-install
 
@@ -70,6 +70,9 @@ Get a token by [registering on Weave Cloud](http://cloud.weave.works/). Once you
     sudo curl -L git.io/scope -o /usr/local/bin/scope
     sudo chmod a+x /usr/local/bin/scope
     scope launch --service-token=<token>
+
+Open https://cloud.weave.works/app/, login and see your services running.
+
 
 ### Prepare docker-compose.yaml configuration file
 minimal compose for a simulation of https://github.com/weaveworks/weaveDemo: 
